@@ -10,12 +10,16 @@ export default function Home({ navigation }) {
       <View style={styles.botones}>
         <Button title="Ir a Productos" onPress={() => navigation.navigate('Productos')} />
       </View>
+        <View style={styles.botones}>
+        <Button title="Ir a promedio" onPress={() => navigation.navigate('Promedio')} />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor:"#ffffffff",
     padding: 20,
   },
   botones: {

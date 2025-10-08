@@ -3,45 +3,33 @@ import { View, TextInput, Button, StyleSheet, Text } from "react-native";
 import { db } from "../database/firebaseConfig";
 import { collection, addDoc } from "firebase/firestore";
 
-const FormularioProductos = ({ cargarDatos }) => {
+const FormularioProductos = ({ actualizarProducto, modoEdicion, cargarDatos, nuevoProducto, manejoCambio, guardarProducto }) => {
     const [nombre, setNombre] = useState("");
     const [precio, setPrecio] = useState("");
 
-    const guardarProducto = async () => {
-        if (nombre && precio) {
-            try {
-                await addDoc(collection(db, "productos"), {
-                    nombre: nombre,
-                    precio: parseFloat(precio),
-                });
-                setNombre("");
-                setPrecio("");
-                cargarDatos(); // Volver a cargar la lista
-            } catch (error) {
-                console.error("Error al registrar producto:", error);
-            }
-        } else {
-            alert("Por favor, complete todos los campos.");
-        }
-    };
 
     return (
         <View style={styles.container}>
-            <Text style={styles.titulo}>Registro de Productos</Text>
+            <Text style={styles.titulo}>
+                {modoEdicion ? "Actuaizar Producto" : "Registro de Productos"}
+            </Text>
             <TextInput
                 style={styles.input}
                 placeholder="Nombre del producto"
-                value={nombre}
-                onChangeText={setNombre}
+                value={nuevoProducto.nombre}
+                onChangeText={(nombre) => manejoCambio("nombre", nombre)}
             />
             <TextInput
                 style={styles.input}
                 placeholder="Precio"
-                value={precio}
-                onChangeText={setPrecio}
+                value={nuevoProducto.precio}
+                onChangeText={(precio) => manejoCambio("precio", precio)}
                 keyboardType="numeric"
             />
-            <Button title="Guardar" onPress={guardarProducto} />
+            <Button 
+            title={modoEdicion ? "Actualizar" : "Guardar"}
+             onPress={modoEdicion? actualizarProducto : guardarProducto}   
+            />
         </View>
     );
 

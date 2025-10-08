@@ -20,7 +20,7 @@ const TablaClientes = ({ clientes, eliminarClientes }) => {
                 {clientes.map((item) => (
                     <View key={item.id} style={styles.fila}>
                         <Text style={styles.celda}>{item.nombre}</Text>
-                        <Text style={styles.celda}>${item.apellido}</Text>
+                        <Text style={styles.celda}>{item.apellido}</Text>
                         <View style={styles.celdaAcciones}>
                             <BotonEliminarClientes
                                id={item.id} eliminarClientes={eliminarClientes}
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     encabezado: {
-        backgroundColor: "#d4bc7bff"
+        backgroundColor: "#d16b18ff"
     },
     celda: {
         flex: 1,

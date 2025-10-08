@@ -1,36 +1,30 @@
 import React from 'react';
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import BotonEliminarProducto from './BotonEliminarProducto';
-import Productos from '../view/Productos';
+import Promedio from '../view/Promedio';
 
-const TablaProductos = ({ productos, eliminarProducto, editarProducto }) => {
+const TablaPromedio = ({ promedio, eliminarPromedio }) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.titulo}>Tabla de Productos</Text>
+            <Text style={styles.titulo}>Tabla de Promedio</Text>
 
             <View style={[styles.fila, styles.encabezado]}>
                 <Text style={[styles.celda, styles.textoEncabezado]}>Nombre</Text>
-                <Text style={[styles.celda, styles.textoEncabezado]}>Precio</Text>
+                <Text style={[styles.celda, styles.textoEncabezado]}>Edad</Text>
                 <Text style={[styles.celda, styles.textoEncabezado]}>Acciones</Text>
             </View>
 
-            {/* Lista de productos */}
+            {/* Lista de promedio */}
             <ScrollView>
-                {productos.map((item) => (
+                {promedio.map((item) => (
                     <View key={item.id} style={styles.fila}>
                         <Text style={styles.celda}>{item.nombre}</Text>
-                        <Text style={styles.celda}>${item.precio}</Text>
+                        <Text style={styles.celda}>${item.edad}</Text>
                         <View style={styles.celdaAcciones}>
                             <BotonEliminarProducto
-                                id={item.id} eliminarProducto={eliminarProducto}
+                                id={item.id} eliminarProducto={eliminarPromedio}
                             />
-                            <TouchableOpacity
-                                style={styles.botonActualizar}
-                                onPress={() => editarProducto(item)}
-                            >
-                                <Text>🖊️</Text>
-                            </TouchableOpacity>
                         </View>
                     </View>
                 ))}
@@ -41,7 +35,6 @@ const TablaProductos = ({ productos, eliminarProducto, editarProducto }) => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor:"#ffffffff",
         flex: 1,
         padding: 20,
         alignSelf: "stretch"
@@ -77,14 +70,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontSize: 17,
         textAlign: "center"
-    },
-    botonActualizar: {
-        padding: 4,
-        borderRadius: 5,
-        alignItems: "center",
-        alignSelf: "center",
-        backgroundColor: "#facf7fff"
     }
 });
 
-export default TablaProductos;
+export default TablaPromedio;
