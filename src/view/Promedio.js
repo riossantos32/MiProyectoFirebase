@@ -44,7 +44,7 @@ const Promedio = () => {
       const data = await response.json();
       setPromedio(data.promedio || null);
     } catch (error) {
-      console.error('Error al calcular promedio en API:', error);
+      console.error('Error al calcular promedio de api:', error);
     }
   };
 
