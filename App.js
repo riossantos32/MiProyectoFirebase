@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './src/Components/Home';
 import Clientes from './src/view/Clientes';
 import Productos from './src/view/Productos';
-import Promedio from './src/view/Promedio';
+import Promedio from './src/view/Promedios';
 
 const Stack = createNativeStackNavigator();
 
@@ -15,7 +15,7 @@ export default function App() {
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Clientes" component={Clientes} />
         <Stack.Screen name="Productos" component={Productos} />
-         <Stack.Screen name="Promedio" component={Promedio} />
+         <Stack.Screen name="Promedios" component={Promedio} />
       </Stack.Navigator>
     </NavigationContainer>
   );

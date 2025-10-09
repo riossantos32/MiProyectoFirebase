@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { db } from "../database/firebaseConfig.js";
 import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
-import FormularioEdades from "../Components/FormularioEdades.js";
-import TablaPromedio from "../Components/TablaPromedio.js";
-import TituloPromedio from "../Components/TituloPromedio.js";
+import FormularioEdades from "../Components/FormulariosPromedio.js";
+import TablaPromedio from "../Components/TablaPromedios.js";
+import TituloPromedio from "../Components/TituloPromedios.js";
 
 const Promedio = () => {
   const [cargarDato, setCargarDato] = useState([]);
