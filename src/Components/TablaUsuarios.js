@@ -1,34 +1,43 @@
 import React from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
-import BotonEliminarPromedio from './BotonEliminarPromedio';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import BotonEliminarUsuario from './BotonEliminarUsuario';
 
-const TablaPromedio = ({ promedio, eliminarPromedio }) => {
+
+const TablaUsuarios = ({ usuarios, eliminarUsuario, editarUsuario }) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.titulo}>Tabla de Promedio</Text>
+            <Text style={styles.titulo}>Tabla de usuarios</Text>
 
             <View style={[styles.fila, styles.encabezado]}>
                 <Text style={[styles.celda, styles.textoEncabezado]}>Nombre</Text>
+                <Text style={[styles.celda, styles.textoEncabezado]}>Correo</Text>
+                <Text style={[styles.celda, styles.textoEncabezado]}>Telefono</Text>
                 <Text style={[styles.celda, styles.textoEncabezado]}>Edad</Text>
-                <Text style={[styles.celda, styles.textoEncabezado]}>Acciones</Text>
+                <Text style={[styles.celda, styles.textoEncabezado]}>Accion</Text>
             </View>
 
-            {/* Lista de promedio */}
+            {/* Lista de usuarios */}
             <ScrollView>
-                {(!promedio || promedio.length === 0) ? (
+                {(!usuarios || usuarios.length === 0) ? (
                     <View style={styles.fila}>
-                        <Text style={styles.celda}>No hay registros</Text>
+                        <Text style={styles.celda}>No hay usuarios</Text>
                     </View>
                 ) : (
-                    (promedio || []).map((item) => (
+                    usuarios.map((item) => (
                         <View key={item.id} style={styles.fila}>
                             <Text style={styles.celda}>{item.nombre}</Text>
+                            <Text style={styles.celda}>{item.correo}</Text>
+                            <Text style={styles.celda}>{item.telefono}</Text>
                             <Text style={styles.celda}>{item.edad}</Text>
                             <View style={styles.celdaAcciones}>
-                                <BotonEliminarPromedio
-                                    id={item.id} eliminarPromedio={eliminarPromedio}
-                                />
+                                <BotonEliminarUsuario id={item.id} eliminarUsuario={eliminarUsuario} />
+                                <TouchableOpacity
+                                    style={styles.botonActualizar}
+                                    onPress={() => editarUsuario(item)}
+                                >
+                                    <Text>🖊️</Text>
+                                </TouchableOpacity>
                             </View>
                         </View>
                     ))
@@ -40,8 +49,10 @@ const TablaPromedio = ({ promedio, eliminarPromedio }) => {
 
 const styles = StyleSheet.create({
     container: {
+        width:"109%",
+        backgroundColor: "#ffffffff",
         flex: 1,
-        padding: 20,
+       marginLeft:-16,
         alignSelf: "stretch"
     },
     titulo: {
@@ -75,7 +86,14 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontSize: 17,
         textAlign: "center"
+    },
+    botonActualizar: {
+        padding: 4,
+        borderRadius: 5,
+        alignItems: "center",
+        alignSelf: "center",
+        backgroundColor: "#facf7fff"
     }
 });
 
-export default TablaPromedio;
+export default TablaUsuarios;

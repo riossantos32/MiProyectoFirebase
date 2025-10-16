@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet,Button } from "react-native";
 import { db } from "../database/firebaseConfig.js";
 import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import FormularioEdades from "../Components/FormulariosPromedio.js";
 import TablaPromedio from "../Components/TablaPromedios.js";
 import TituloPromedio from "../Components/TituloPromedios.js";
 
-const Promedio = () => {
+const Promedio = ({ cerrarSesion }) => {
   const [cargarDato, setCargarDato] = useState([]);
   const [promedio, setPromedio] = useState(null);
 
@@ -66,6 +66,7 @@ const Promedio = () => {
 
   return (
     <View style={styles.container}>
+       <Button title="Cerrar Sesión" onPress={cerrarSesion} />
       <TituloPromedio promedio={promedio}/>
       <FormularioEdades cargarDatos={cargarDatos} />
       <TablaPromedio
