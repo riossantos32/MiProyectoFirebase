@@ -37,7 +37,7 @@ const Clientes = ({ cerrarSesion }) => {
   return (
     <View style={styles.container}>
        <Button title="Cerrar Sesión" onPress={cerrarSesion} />
-      <FormularioCliente cargarDatos={cargarDatos} />
+      <FormularioCliente />
       <TablaClientes
         clientes={clientes}
         eliminarClientes={eliminarClientes}

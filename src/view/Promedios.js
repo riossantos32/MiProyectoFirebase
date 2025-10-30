@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet,Button } from "react-native";
 import { db } from "../database/firebaseConfig.js";
-import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
+import { collection, getDocs, doc, deleteDoc,where } from "firebase/firestore";
 import FormularioEdades from "../Components/FormulariosPromedio.js";
 import TablaPromedio from "../Components/TablaPromedios.js";
 import TituloPromedio from "../Components/TituloPromedios.js";

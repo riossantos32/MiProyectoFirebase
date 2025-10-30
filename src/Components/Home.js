@@ -12,6 +12,9 @@ export default function Home({ navigation, cerrarSesion }) {
       <View style={styles.botones}>
         <Button title="Ir a Productos" onPress={() => navigation.navigate('Productos')} />
       </View>
+      <View style={styles.botones}>
+        <Button title="Ir a Ciudades" onPress={() => navigation.navigate('Ciudades')} />
+      </View>
         <View style={styles.botones}>
         <Button title="Ir a promedio" onPress={() => navigation.navigate('Promedios')} />
       </View>

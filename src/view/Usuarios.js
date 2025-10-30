@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Alert, View, StyleSheet,Button } from 'react-native';
 import { db } from '../database/firebaseConfig';
-import { collection, getDocs, addDoc, deleteDoc, doc, updateDoc } from 'firebase/firestore';
+import { collection, getDocs, addDoc, deleteDoc, doc, updateDoc,getDoc } from 'firebase/firestore';
 import FormularioUsuarios from '../Components/FormularioUsuarios';
 import TablaUsuarios from '../Components/TablaUsuarios';
 
@@ -48,7 +48,6 @@ const Usuarios = ({ cerrarSesion }) => {
   }
 };
 
-
   const guardarUsuario = async () => {
   const datosValidados = await validarDatos(nuevoUsuario);
   if (datosValidados) {
@@ -78,7 +77,7 @@ const Usuarios = ({ cerrarSesion }) => {
         telefono: datosValidados.telefono,
         edad: parseInt(datosValidados.edad),
       });
-      setNuevoUsuario({ nombre: "", correo: "", telefono: "", edad: "" });
+      
       setModoEdicion(false);
       setUsuarioId(null);
       cargarDatos();
