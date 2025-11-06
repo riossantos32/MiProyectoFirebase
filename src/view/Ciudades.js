@@ -6,7 +6,7 @@ import FormularioCiudades from "../Components/FormularioCiudades.js";
 import TablaCiudades from "../Components/TablaCiudades.js";
 
 const Ciudades = ({ cerrarSesion }) => {
-  {/*
+  
   const [modoEdicion, setModoEdicion] = useState(false);
   const [ciudadId, setCiudadId] = useState(null);
 
@@ -99,7 +99,6 @@ const Ciudades = ({ cerrarSesion }) => {
     setCiudadId(ciudad.id);
     setModoEdicion(true);
   };
-*/}
   useEffect(() => {
     obtenerCiudadesMasPobladas();
     listarHondurasMayor700kNombreAscLimit3();
@@ -217,7 +216,7 @@ const Ciudades = ({ cerrarSesion }) => {
   return (
 
     <View style={styles.container}>
-      {/*
+    
       <Button title="Cerrar Sesión" onPress={cerrarSesion} />
 
       <FormularioCiudades
@@ -233,7 +232,7 @@ const Ciudades = ({ cerrarSesion }) => {
         editarCiudad={editarCiudad}
         eliminarCiudad={eliminarCiudad}
       />
-    */}
+    
     </View>
   );
 };

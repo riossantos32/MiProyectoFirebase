@@ -1,10 +1,10 @@
 
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Button } from "react-native";
-import { db } from "../database/firebaseconfig.js";
+import { db } from "../database/firebaseConfig.js";
 import { collection, getDocs, doc, deleteDoc, addDoc, updateDoc } from "firebase/firestore";
-import FormularioProductos from "../components/FormularioProductos";
-import TablaProductos from "../components/TablaProductos.js";
+import FormularioProductos from "../Components/FormularioProductos.js";
+import TablaProductos from "../Components/TablaProductos.js";
 
 const Productos = ({cerrarSesion}) => {
 
