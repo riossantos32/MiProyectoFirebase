@@ -8,6 +8,7 @@ import * as FileSystem from "expo-file-system/legacy";
 import * as Sharing from "expo-sharing";
 import * as Clipboard from "expo-clipboard";
 
+
 export default function CompartirDatos() {
     const [productos, setProductos] = useState([]);
     const [usuarios, setUsuarios] = useState([]);
@@ -259,61 +260,113 @@ export default function CompartirDatos() {
         }
     };
 
-     const cargarTodosDatosFirebase = async () => {
-  try {
-    const datosExportados = {};
-        for (const col of colecciones) {
-            const snapshot = await getDocs(collection(db, col));
+    const cargarTodosDatosFirebase = async () => {
+        try {
+            const datosExportados = {};
+            for (const col of colecciones) {
+                const snapshot = await getDocs(collection(db, col));
 
-            datosExportados[col] = snapshot.docs.map((d) => ({
-                id: d.id,
-                ...d.data(),
-            }));
+                datosExportados[col] = snapshot.docs.map((d) => ({
+                    id: d.id,
+                    ...d.data(),
+                }));
+            }
+
+            return datosExportados;
+        } catch (error) {
+            console.error('Error extrayendo datos:', error);
         }
+    };
+    // Helper para copiar/guardar/compartir JSON
+    const compartirJson = async (objetoDatos, nombreArchivo = "datos_firebase.json") => {
+        try {
+            const jsonString = JSON.stringify(objetoDatos, null, 2);
 
-        return datosExportados;
-  } catch (error) {
-    console.error('Error extrayendo datos:', error);
-  }
-};
-// Helper para copiar/guardar/compartir JSON
-const compartirJson = async (objetoDatos, nombreArchivo = "datos_firebase.json") => {
-    try {
-        const jsonString = JSON.stringify(objetoDatos, null, 2);
+            // Copiar al portapapeles
+            await Clipboard.setStringAsync(jsonString);
 
-        // Copiar al portapapeles
-        await Clipboard.setStringAsync(jsonString);
+            // Verificar disponibilidad de compartir
+            if (!(await Sharing.isAvailableAsync())) {
+                alert("La función Compartir/Guardar no está disponible en tu dispositivo");
+                return;
+            }
 
-        // Verificar disponibilidad de compartir
-        if (!(await Sharing.isAvailableAsync())) {
-            alert("La función Compartir/Guardar no está disponible en tu dispositivo");
-            return;
+            const fileUri = FileSystem.cacheDirectory + nombreArchivo;
+            await FileSystem.writeAsStringAsync(fileUri, jsonString);
+            await Sharing.shareAsync(fileUri, {
+                mimeType: 'application/json',
+                dialogTitle: 'Compartir datos de Firebase (JSON)',
+            });
+
+            alert("Datos copiados al portapapeles y listos para compartir.");
+        } catch (error) {
+            console.error('Error al compartir JSON:', error);
+            alert('Error al compartir datos: ' + (error.message || error));
         }
+    };
 
-        const fileUri = FileSystem.cacheDirectory + nombreArchivo;
-        await FileSystem.writeAsStringAsync(fileUri, jsonString);
-        await Sharing.shareAsync(fileUri, {
-            mimeType: 'application/json',
-            dialogTitle: 'Compartir datos de Firebase (JSON)',
-        });
+    const exportarTodosDatos = async () => {
+        try {
+            const todos = await cargarTodosDatosFirebase();
+            console.log('Todos los datos cargados:', todos);
+            await compartirJson(todos, 'todos_datos_firebase.json');
+        } catch (error) {
+            console.error('Error exportando todos los datos:', error);
+            alert('Error exportando todos los datos: ' + (error.message || error));
+        }
+    };
 
-        alert("Datos copiados al portapapeles y listos para compartir.");
-    } catch (error) {
-        console.error('Error al compartir JSON:', error);
-        alert('Error al compartir datos: ' + (error.message || error));
-    }
-};
+    const arrayBufferToBase64 = (Buffer) => {
+        let binary = '';
+        const bytes = new Uint8Array(Buffer);
+        const len = bytes.byteLength;
+        for (let i = 0; i < len; i++) {
+            binary += String.fromCharCode(bytes[i]);
+        }
+        return btoa(binary);
+    };
 
-const exportarTodosDatos = async () => {
-    try {
-        const todos = await cargarTodosDatosFirebase();
-        console.log('Todos los datos cargados:', todos);
-        await compartirJson(todos, 'todos_datos_firebase.json');
-    } catch (error) {
-        console.error('Error exportando todos los datos:', error);
-        alert('Error exportando todos los datos: ' + (error.message || error));
-    }
-};
+    const generarExcel = async () => {
+        try {
+            const datosParaExcel = [
+                { nombre: "Producto A", categoria: "Electrónicos", precio: 100 },
+                { nombre: "Producto B", categoria: "Ropa", precio: 50 },
+                { nombre: "Producto C", categoria: "Electrónicos", precio: 200 },
+            ];
+
+            const response = await fetch("https://0z65l0ta55.execute-api.us-east-1.amazonaws.com/generarexcel", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ datos: datosParaExcel }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error en HTTP: ${response.status}`);
+            }
+
+            const arrayBuffer = await response.arrayBuffer();
+            const base64 = arrayBufferToBase64(arrayBuffer);
+            const fileUri = FileSystem.documentDirectory + "reporte.xlsx";
+
+            await FileSystem.writeAsStringAsync(fileUri, base64, {
+                encoding: FileSystem.EncodingType.Base64,
+            });
+
+            if (await Sharing.isAvailableAsync()) {
+                await Sharing.shareAsync(fileUri, {
+                    mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                    dialogTitle: 'Descargar Reporte Excel'
+                });
+            } else {
+                alert("Compartir no disponible. Revisa la consola para logs.");
+            }
+        } catch (error) {
+            console.error("Error generando Excel:", error);
+            alert("Error:" + error.message);
+        }
+    };
+
+
     return (
         <View >
             <View style={{ marginTop: 100, marginVertical: 10, padding: 10, margin: 10 }}>
@@ -329,11 +382,15 @@ const exportarTodosDatos = async () => {
                 <Button title="Exportar clientes" onPress={exportarDatosClientes} />
             </View>
 
-             <View style={{ marginVertical: 10, padding: 10, margin: 10 }}>
+            <View style={{ marginVertical: 10, padding: 10, margin: 10 }}>
                 <Button title="Exportar edades" onPress={exportarDatosPromedio} />
             </View>
             <View style={{ marginVertical: 10, padding: 10, margin: 10 }}>
                 <Button title="Exportar todos los datos" onPress={exportarTodosDatos} />
+            </View>
+
+            <View style={{ marginVertical: 10, padding: 10, margin: 10 }}>
+                <Button title="Generar Excel" onPress={generarExcel}></Button>
             </View>
         </View>
     )
