@@ -8,6 +8,7 @@ import Productos from "./src/view/Productos";
 import Ciudades from "../MiProyecto/src/view/Ciudades" 
 import CompartirDatos from "./src/view/CompartirDatos";
 import ProductosRealtime from "./src/view/ProductosRealtime";
+import IMC from "./src/view/IMC";
 
 export default function App() {
   const [usuario, setUsuario] = useState(null);
@@ -32,7 +33,7 @@ export default function App() {
   // Si hay usuario autenticado, mostrar productos
   return (
     <View style={{ flex: 1 }}>
-      <ProductosRealtime cerrarSesion={cerrarSesion}/>
+      <IMC cerrarSesion={cerrarSesion}/>
     </View>
   );
 }
