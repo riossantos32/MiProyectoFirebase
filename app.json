@@ -26,16 +26,13 @@
       "favicon": "./assets/favicon.png"
     },
     "extra": {
-      "FIREBASE_API_KEY": "AIzaSyBa_uzy2WtHR5UlRclmqBDVYMLLw19AWxk",
-      "FIREBASE_AUTH_DOMAIN": "myproyectoclover.firebaseapp.com",
-      "FIREBASE_PROJECT_ID": "myproyectoclover",
-      "FIREBASE_STORAGE_BUCKET": "myproyectoclover.firebasestorage.app",
-      "FIREBASE_MESSAGING_SENDER_ID": "68720462587",
-      "FIREBASE_APP_ID": "1:68720462587:web:35e080fc051eb0bb973e5e",
-      "FIREBASE_MEASUREMENT_ID": "G-62FJ3ZBYBZ",
+      "cli": {
+        "appVersionSource": "manifest"
+      },
       "eas": {
-        "projectId": "2192d002-21f2-499e-9076-a3e73eaff425"
+        "projectId": "8ba25add-cf32-4ce5-bf93-a6139a0cc1a4"
       }
-    }
+    },
+    "owner": "santis"
   }
 }

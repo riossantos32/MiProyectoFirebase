@@ -13,9 +13,7 @@ export default ({ config }) => ({
     FIREBASE_MESSAGING_SENDER_ID: process.env.FIREBASE_MESSAGING_SENDER_ID,
     FIREBASE_APP_ID: process.env.FIREBASE_APP_ID,
     FIREBASE_MEASUREMENT_ID: process.env.FIREBASE_MEASUREMENT_ID,
-    eas: {
-      projectId: process.env.EAS_PROJECT_ID || '2192d002-21f2-499e-9076-a3e73eaff425'
-    },
+    
     cli: {
       appVersionSource: 'manifest'
     },
