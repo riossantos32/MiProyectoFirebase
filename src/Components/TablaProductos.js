@@ -6,7 +6,7 @@ import BotonEliminarProducto from "./BotonEliminarProducto.js";
 const TablaProductos = ({ productos, eliminarProducto, editarProducto }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.titulo}>Tabla de Productos</Text>
+      <Text style={styles.titulo}>Tabla de Productosss</Text>
 
       {/* Encabezado de la tabla */}
       <View style={[styles.fila, styles.encabezado]}>
