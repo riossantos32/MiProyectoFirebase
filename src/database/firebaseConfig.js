@@ -1,32 +1,35 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
-import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
-import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
+import {
+  initializeAuth,
+  getReactNativePersistence,
+  browserLocalPersistence // Importar persistencia para web
+} from 'firebase/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import 'react-native-get-random-values';
 import 'react-native-url-polyfill/auto';
-import Constants from 'expo-constants';
-import { getDatabase } from 'firebase/database';
-
-const { extra } = Constants.expoConfig; 
+import { Platform } from 'react-native'; // Importar Platform
 
 // Configuración Web de Firebase
 const firebaseConfig = {
-  apiKey: extra.FIREBASE_API_KEY,
-  authDomain: extra.FIREBASE_AUTH_DOMAIN,
-  projectId: extra.FIREBASE_PROJECT_ID,
-  storageBucket: extra.FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: extra.FIREBASE_MESSAGING_SENDER_ID,
-  appId: extra.FIREBASE_APP_ID,
-  databaseURL: extra.FIREBASE_DATABASE_URL
+  apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.EXPO_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.EXPO_PUBLIC_FIREBASE_APP_ID,
+  databaseURL: process.env.EXPO_PUBLIC_FIREBASE_DATABASE_URL
 };
 
 // Inicializar Firebase
 const app = initializeApp(firebaseConfig);
-const realtimeDB = getDatabase(app);
 
 // Servicios
+// Configurar persistencia condicionalmente
 const auth = initializeAuth(app, {
-  persistence: getReactNativePersistence(ReactNativeAsyncStorage)
+  persistence: Platform.OS === 'web'
+    ? browserLocalPersistence
+    : getReactNativePersistence(AsyncStorage)
 });
 const db = getFirestore(app);
 
